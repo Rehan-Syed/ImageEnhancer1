@@ -90,9 +90,9 @@ class ImageEnhancementTester:
         
         # Save to BytesIO
         img_io = BytesIO()
-        img.save(img_io, format='JPEG', quality=95)
+        img.save(img_io, format='JPEG',  quality=95)
         img_io.seek(0)
-        
+        #hmmm
         return img_io
     
     def test_image_enhancement(self):
