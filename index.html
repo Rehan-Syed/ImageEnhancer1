@@ -1,1 +1,773 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealEstate Enhancer | Professional Image Enhancement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b3f5c',
+                        secondary: '#b8834e',
+                        dark: '#1b3f5c',
+                        light: '#f1e9e3'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .dropzone {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s;
+        }
+        .dropzone.active {
+            border-color: #2563eb;
+            background-color: #dbeafe;
+        }
+        .image-card {
+            transition: all 0.2s;
+        }
+        .image-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: white;
+            cursor: ew-resize;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+        .slider-handle::after {
+            content: "↔";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            color: #2563eb;
+            background: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        .adjustment-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            box-shadow: 0 0 3px rgba(0,0,0,0.3);
+        }
+        .adjustment-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            box-shadow: 0 0 3px rgba(0,0,0,0.3);
+        }
+        .processing-loader {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(37, 99, 235, 0.2);
+            border-radius: 50%;
+            border-top-color: #2563eb;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .before-after-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .before-image, .after-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .before-image {
+            clip-path: inset(0 50% 0 0);
+        }
+        .after-image {
+            clip-path: inset(0 0 0 50%);
+        }
+    </style>
+</head>
+<body class="bg-[#f1e9e3] text-dark">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-8">
+                <div class="flex items-center">
+                    <div class="bg-primary w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-home text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold">Quick<span class="text-secondary">HDR</span></h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="text-dark hover:text-primary font-medium">Home</a>
+                    <a href="#" class="text-dark hover:text-primary font-medium">Features</a>
+                    <a href="#" class="text-dark hover:text-primary font-medium">Pricing</a>
+                    <a href="#" class="text-dark hover:text-primary font-medium">Tutorials</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition">
+                    Login
+                </button>
+                <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition">
+                    Sign Up
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="text-center py-16 md:py-24 bg-gradient-to-b from-white to-[#f1e9e3]">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Professional <span class="text-primary">HDR Processing</span></h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
+                    Transform your real estate photos with AI-powered enhancement tools for stunning results
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <button class="px-8 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium shadow-lg">
+                        <i class="fas fa-play mr-2"></i>Watch Demo
+                    </button>
+                    <button class="px-8 py-3 bg-white text-primary border border-primary rounded-lg hover:bg-gray-50 transition font-medium shadow-lg">
+                        <i class="fas fa-cloud-upload-alt mr-2"></i>Upload Images
+                    </button>
+                </div>
+                <div class="mt-16 max-w-5xl mx-auto relative">
+                    <div class="before-after-container h-96 w-full rounded-2xl shadow-2xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Before enhancement" class="before-image">
+                        <img src="https://images.unsplash.com/photo-1560448204-6032f12d4103?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="After enhancement" class="after-image">
+                        <div class="slider-handle" style="left: 50%"></div>
+                    </div>
+                    <div class="absolute -bottom-4 left-0 right-0 flex justify-center">
+                        <div class="bg-white px-6 py-2 rounded-full shadow-lg flex items-center">
+                            <span class="text-sm font-medium mr-4">Drag to compare</span>
+                            <i class="fas fa-arrows-left-right text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex flex-col md:flex-row md:space-x-8 mb-16">
+
+            <section class="mb-8 md:mb-0 md:w-1/2">
+                <div class="max-w-full mx-auto bg-white rounded-xl shadow-lg p-6 h-full"> <h2 class="text-2xl font-bold mb-6 text-center">Upload Your Images</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="border border-gray-200 rounded-xl p-6 hover:border-primary transition group">
+                            <div class="text-center mb-4">
+                                <div class="bg-gradient-to-br from-blue-50 to-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:shadow-lg transition">
+                                    <div class="bg-primary w-16 h-16 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-image text-white text-2xl"></i>
+                                    </div>
+                                </div>
+                                <h3 class="font-bold text-xl mb-2">Single Image Enhancement</h3>
+                                <p class="text-gray-600">Upload individual photos for quick enhancement</p>
+                                <div class="mt-4 flex justify-center">
+                                    <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                                        <i class="fas fa-bolt mr-1"></i> Fast Processing
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div id="singleDropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3"></i>
+                                    <p class="font-medium">Drag & drop your image here</p>
+                                    <p class="text-gray-500 text-sm mt-2">or</p>
+                                    <button id="singleUploadBtn" class="mt-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                                        Browse Files
+                                    </button>
+                                    <p class="text-gray-500 text-xs mt-3">Supports JPG, PNG, TIFF (Max 20MB)</p>
+                                    <input type="file" id="singleFileInput" class="hidden" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-xl p-6">
+                            <div class="text-center mb-4">
+                                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-sun text-primary text-2xl"></i>
+                                </div>
+                                <h3 class="font-bold text-lg mb-1">HDR Enhancement</h3>
+                                <p class="text-gray-600 text-sm">Upload 3 bracketed exposures for best results</p>
+                            </div>
+                            <div class="mt-4">
+                                <div id="hdrDropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3"></i>
+                                    <p class="font-medium">Drag & drop 3 exposure images</p>
+                                    <p class="text-gray-500 text-sm mt-2">or</p>
+                                    <button id="hdrUploadBtn" class="mt-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                                        Browse Files
+                                    </button>
+                                    <p class="text-gray-500 text-xs mt-3">Select 3 bracketed exposures (JPG, RAW)</p>
+                                    <input type="file" id="hdrFileInput" class="hidden" accept="image/*" multiple>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="uploadedImages" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6 hidden">
+                        <h3 class="col-span-full text-lg font-semibold mb-2">Uploaded Images:</h3>
+                    </div>
+
+                    <div class="border-t border-gray-200 pt-6">
+                        <h3 class="font-semibold mb-4">Processing Options</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="flex items-center mb-4 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                    <div class="relative inline-flex items-center mr-3">
+                                        <input id="autoWhiteBalance" type="checkbox" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Auto White Balance</span>
+                                        <p class="text-gray-500 text-sm">Automatically correct color temperature</p>
+                                    </div>
+                                </label>
+                                <label class="flex items-center mb-2">
+                                    <input id="enhanceContrast" type="checkbox" class="mr-2" checked>
+                                    <span>Enhance Contrast & Brightness</span>
+                                </label>
+                                <label class="flex items-center mb-2">
+                                    <input id="applySharpening" type="checkbox" class="mr-2" checked>
+                                    <span>Apply Sharpening & Clarity</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="flex items-center mb-2">
+                                    <input id="perspectiveCorrection" type="checkbox" class="mr-2" checked>
+                                    <span>Perspective Correction</span>
+                                </label>
+                                <label class="flex items-center mb-2">
+                                    <input id="skyReplacement" type="checkbox" class="mr-2" checked>
+                                    <span>AI Sky Replacement</span>
+                                </label>
+                                <label class="flex items-center mb-2">
+                                    <input id="noiseReduction" type="checkbox" class="mr-2" checked>
+                                    <span>Noise Reduction</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 text-center">
+                            <button id="processBtn" class="px-8 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium w-full md:w-auto">
+                                <i class="fas fa-magic mr-2"></i>Enhance Images
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="resultsSection" class="md:w-1/2 hidden"> <div class="bg-white rounded-xl shadow-lg p-6 h-full"> <h2 class="text-2xl font-bold mb-8 text-center">Enhanced Results</h2>
+
+                    <div class="mb-10">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-semibold">Before & After Comparison</h3>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 bg-gray-100 rounded-lg">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="px-3 py-1 bg-gray-100 rounded-lg">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="before-after-container h-96 relative mb-6">
+                            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Before enhancement" class="before-image">
+                            <img src="https://images.unsplash.com/photo-1560448204-6032f12d4103?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="After enhancement" class="after-image">
+                            <div class="slider-handle" style="left: 50%"></div>
+                        </div>
+
+                        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 mt-10">
+                            <h2 class="text-2xl font-bold mb-4">Advanced AI Enhancement <span class="text-gray-500 text-sm">(powered by FLUX.1 Kontext)</span></h2>
+                            <form id="fluxEnhanceForm">
+                                <label class="block mb-2 font-semibold">Upload Image</label>
+                                <input type="file" id="fluxInput" accept="image/*" required class="mb-4">
+                                <label class="block mb-2 font-semibold">Enhancement Prompt</label>
+                                <input type="text" id="fluxPrompt" class="w-full px-3 py-2 rounded border mb-4" placeholder="e.g. Professional real estate HDR, vivid, natural, sharp" required>
+                                <div class="flex space-x-3 mb-4">
+                                    <input type="number" id="fluxGuidance" step="0.1" min="1" max="10" value="2.5" class="px-2 py-1 w-24 rounded border">
+                                    <label class="mt-1">Guidance</label>
+                                    <input type="number" id="fluxSteps" min="1" max="30" value="28" class="px-2 py-1 w-20 rounded border">
+                                    <label class="mt-1">Steps</label>
+                                    <input type="checkbox" id="fluxRandom" class="mt-1 ml-4"><label class="ml-1 mt-1">Random Seed</label>
+                                </div>
+                                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Enhance with AI</button>
+                            </form>
+                            <div id="fluxProgress" class="mt-4 text-blue-600 font-semibold hidden">Enhancing image, please wait...</div>
+                            <div id="fluxResult" class="mt-8 hidden">
+                                <h3 class="text-lg font-semibold mb-2">Enhanced Image:</h3>
+                                <img id="fluxOutImg" src="" class="w-full max-h-96 rounded mb-3" alt="Enhanced image">
+                                <a id="fluxDownload" href="#" download="ai-enhanced.png"
+                                    class="inline-block px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700">Download Image</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="manualEnhanceControls" class="bg-gray-50 rounded-xl p-6 mt-8">
+                        <h3 class="text-lg font-semibold mb-6 text-center">Fine-Tune Your Image</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <label class="font-medium">Brightness</label>
+                                    <span id="valBrightness" class="bg-primary/10 text-primary px-2 py-1 rounded text-sm">0</span>
+                                </div>
+                                <input id="sliderBrightness" type="range" min="-50" max="100" value="0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary">
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>Darker</span>
+                                    <span>Normal</span>
+                                    <span>Brighter</span>
+                                </div>
+                            </div>
+                        <label>Contrast
+                            <input id="sliderContrast" type="range" min="-50" max="50" value="0" class="mx-2">
+                            <span id="valContrast">0</span>
+                        </label>
+                        <label>Saturation
+                            <input id="sliderSaturation" type="range" min="-30" max="30" value="0" class="mx-2">
+                            <span id="valSaturation">0</span>
+                        </label>
+                        <button id="applyManualEnhance" class="mt-4 px-6 py-2 bg-primary text-white rounded">Apply Changes</button>
+                    </div>
+
+                    <div class="text-center mt-6">
+                        <a id="downloadEnhanced" href="#" download="enhanced.jpg"
+                           class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium">
+                            <i class="fas fa-download mr-2"></i>Download Enhanced Image
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section id="processingSection" class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mb-16 hidden">
+            <div class="text-center">
+                <div class="processing-loader mx-auto mb-6"></div>
+                <h2 class="text-2xl font-bold mb-2">Enhancing Your Images</h2>
+                <p class="text-gray-600 mb-6">This usually takes less than 30 seconds...</p>
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+                    <div id="progressBar" class="bg-primary h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+                <p id="progressText" class="text-sm text-gray-500">Processing: 0%</p>
+            </div>
+        </section>
+
+    </main>
+
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Trusted by Professionals</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="User" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Sarah Johnson</h4>
+                            <p class="text-gray-600 text-sm">Real Estate Photographer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">
+                        "QuickHDR has transformed my workflow. What used to take hours in Photoshop now takes minutes with stunning results."
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Michael Chen</h4>
+                            <p class="text-gray-600 text-sm">Architectural Firm</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">
+                        "The AI sky replacement alone is worth the price. Our project presentations have never looked better."
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star-half-alt text-yellow-400"></i>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Emily Rodriguez</h4>
+                            <p class="text-gray-600 text-sm">Interior Designer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">
+                        "The perspective correction tool saves me so much time. My portfolio looks professionally shot every time."
+                    </p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+       <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-home text-white text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Quick<span class="text-secondary">HDR</span></h2>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Professional image enhancement for real estate and architectural professionals.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Features</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Image Enhancement</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">HDR Processing</a></li>
+                       
+                        <li><a href="#" class="text-gray-400 hover:text-white">Batch Processing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Professional Export</a></li>
+                    </ul>
+                </div>
+                
+           
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Subscribe</h3>
+                    <p class="text-gray-400 mb-4">Get the latest updates and tips</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg w-full text-gray-800">
+                        <button class="bg-secondary px-4 py-2 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500">
+                <p>&copy; 2023 QuickHDR. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const singleDropzone = document.getElementById('singleDropzone');
+    const singleUploadBtn = document.getElementById('singleUploadBtn');
+    const singleFileInput = document.getElementById('singleFileInput');
+    const hdrDropzone = document.getElementById('hdrDropzone');
+    const hdrUploadBtn = document.getElementById('hdrUploadBtn');
+    const hdrFileInput = document.getElementById('hdrFileInput');
+    const uploadedImages = document.getElementById('uploadedImages');
+    const processBtn = document.getElementById('processBtn');
+    const processingSection = document.getElementById('processingSection');
+    const resultsSection = document.getElementById('resultsSection');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+
+    // Store the latest enhanced image URL for reprocessing
+    let lastEnhancedUrl = "";
+
+    // ----- Upload Handlers -----
+    if (singleUploadBtn && singleFileInput)
+        singleUploadBtn.addEventListener('click', () => singleFileInput.click());
+    if (hdrUploadBtn && hdrFileInput)
+        hdrUploadBtn.addEventListener('click', () => hdrFileInput.click());
+    if (singleFileInput)
+        singleFileInput.addEventListener('change', handleFileSelect);
+    if (hdrFileInput)
+        hdrFileInput.addEventListener('change', handleFileSelect);
+
+    // Drag and drop functionality
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        if (singleDropzone) singleDropzone.addEventListener(eventName, preventDefaults, false);
+        if (hdrDropzone) hdrDropzone.addEventListener(eventName, preventDefaults, false);
+    });
+    ['dragenter', 'dragover'].forEach(eventName => {
+        if (singleDropzone) singleDropzone.addEventListener(eventName, highlight, false);
+        if (hdrDropzone) hdrDropzone.addEventListener(eventName, highlight, false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        if (singleDropzone) singleDropzone.addEventListener(eventName, unhighlight, false);
+        if (hdrDropzone) hdrDropzone.addEventListener(eventName, unhighlight, false);
+    });
+    if (singleDropzone) singleDropzone.addEventListener('drop', handleDrop, false);
+    if (hdrDropzone) hdrDropzone.addEventListener('drop', handleDrop, false);
+
+    // Process images button
+    if (processBtn) processBtn.addEventListener('click', processImages);
+
+    // Prevent default drag behaviors
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function highlight() { this.classList.add('active'); }
+    function unhighlight() { this.classList.remove('active'); }
+
+    // Drop and upload handlers
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+
+    function handleFileSelect(e) { handleFiles(e.target.files); }
+
+    function handleFiles(files) {
+        if (files.length > 0 && uploadedImages) {
+            uploadedImages.classList.remove('hidden');
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.match('image.*')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.className = 'image-card bg-gray-100 rounded-lg overflow-hidden relative';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'w-full h-32 object-cover';
+                        img.alt = 'Uploaded image';
+                        const fileName = document.createElement('div');
+                        fileName.className = 'p-2 text-xs truncate';
+                        fileName.textContent = file.name;
+                        imgContainer.appendChild(img);
+                        imgContainer.appendChild(fileName);
+                        uploadedImages.appendChild(imgContainer);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    }
+
+    // --------- Process Images (HDR/Single) -----------
+    async function processImages() {
+        if (!processingSection) return;
+        processingSection.classList.remove('hidden');
+        const files = [
+            ...(singleFileInput?.files || []),
+            ...(hdrFileInput?.files || [])
+        ];
+        if (files.length === 0) {
+            alert('Please select files to process');
+            processingSection.classList.add('hidden');
+            return;
+        }
+        // Collect options if present
+        const options = {
+            auto_white_balance: document.getElementById('autoWhiteBalance')?.checked,
+            enhance_contrast: document.getElementById('enhanceContrast')?.checked,
+            apply_sharpening: document.getElementById('applySharpening')?.checked,
+            perspective_correction: document.getElementById('perspectiveCorrection')?.checked,
+            sky_replacement: document.getElementById('skyReplacement')?.checked,
+            noise_reduction: document.getElementById('noiseReduction')?.checked
+        };
+        // Progress animation
+        let progress = 0;
+        const progressInterval = setInterval(() => {
+            progress += 5;
+            if (progressBar) progressBar.style.width = `${progress}%`;
+            if (progressText) progressText.textContent = `Processing: ${progress}%`;
+            if (progress >= 100) clearInterval(progressInterval);
+        }, 300);
+        try {
+            const formData = new FormData();
+            files.forEach(file => formData.append('files', file));
+            for (const key in options) formData.append(key, options[key]);
+            const response = await fetch('/process', {
+                method: 'POST',
+                body: formData
+            });
+            if (!response.ok) throw new Error('Processing failed');
+            const result = await response.json();
+            if (result.success) {
+                clearInterval(progressInterval);
+                if (progressBar) progressBar.style.width = '100%';
+                if (progressText) progressText.textContent = 'Processing complete!';
+                setTimeout(() => {
+                    if (processingSection) processingSection.classList.add('hidden');
+                    if (resultsSection) resultsSection.classList.remove('hidden');
+                    if (resultsSection) resultsSection.scrollIntoView({ behavior: 'smooth' });
+                    // Use returned file URLs for before/after
+                    if (result.processed_files.length > 1) {
+                        document.querySelector('.before-image').src = result.processed_files[0];
+                        document.querySelector('.after-image').src = result.processed_files[1];
+                        lastEnhancedUrl = result.processed_files[1];
+                        document.getElementById('downloadEnhanced').href = result.processed_files[1];
+                    } else {
+                        document.querySelector('.before-image').src = uploadedImages.querySelector('img').src;
+                        document.querySelector('.after-image').src = result.processed_files[0];
+                        lastEnhancedUrl = result.processed_files[0];
+                        document.getElementById('downloadEnhanced').href = result.processed_files[0];
+                    }
+                }, 1000);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            clearInterval(progressInterval);
+            alert('Image processing failed. Please try again.');
+            if (processingSection) processingSection.classList.add('hidden');
+        }
+    }
+
+    // Manual sliders for fine tuning (if used)
+    ['Brightness', 'Contrast', 'Saturation'].forEach(type => {
+        const slider = document.getElementById('slider' + type);
+        const val = document.getElementById('val' + type);
+        if (slider) {
+            slider.oninput = () => val.textContent = slider.value;
+        }
+    });
+
+    // ---------- Advanced AI Enhancement (FLUX) -----------
+    const fluxForm = document.getElementById('fluxEnhanceForm');
+    if (fluxForm) {
+        fluxForm.onsubmit = async function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('fluxInput');
+            const promptInput = document.getElementById('fluxPrompt');
+            const guidance = document.getElementById('fluxGuidance').value;
+            const steps = document.getElementById('fluxSteps').value;
+            const randomize_seed = document.getElementById('fluxRandom').checked;
+            const file = fileInput.files[0];
+            if (!file || !promptInput.value) return alert("Please select an image and enter a prompt.");
+            document.getElementById('fluxProgress').classList.remove('hidden');
+            document.getElementById('fluxResult').classList.add('hidden');
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('prompt', promptInput.value);
+            formData.append('guidance_scale', guidance);
+            formData.append('steps', steps);
+            formData.append('randomize_seed', randomize_seed);
+            const res = await fetch('/enhance', { method: 'POST', body: formData });
+            const data = await res.json();
+            document.getElementById('fluxProgress').classList.add('hidden');
+            if (data.success) {
+                document.getElementById('fluxResult').classList.remove('hidden');
+                document.getElementById('fluxOutImg').src = data.url;
+                document.getElementById('fluxDownload').href = data.url;
+            } else {
+                alert("Enhancement failed: " + data.error);
+            }
+        }
+    }
+
+    // Manual enhance button (if present)
+    if (document.getElementById('applyManualEnhance')) {
+        document.getElementById('applyManualEnhance').onclick = async function() {
+            const brightness = document.getElementById('sliderBrightness').value;
+            const contrast = document.getElementById('sliderContrast').value;
+            const saturation = document.getElementById('sliderSaturation').value;
+
+            const formData = new FormData();
+            formData.append('image_url', lastEnhancedUrl);
+            formData.append('brightness', brightness);
+            formData.append('contrast', contrast);
+            formData.append('saturation', saturation);
+
+            const response = await fetch('/reprocess', { method: 'POST', body: formData });
+            const data = await response.json();
+
+            document.querySelector('.after-image').src = data.processed_file;
+            document.getElementById('downloadEnhanced').href = data.processed_file;
+            lastEnhancedUrl = data.processed_file;
+        };
+    }
+
+    // Slider functionality for before/after
+    const sliderHandle = document.querySelector('.slider-handle');
+    const beforeAfterContainer = document.querySelector('.before-after-container');
+    if (sliderHandle && beforeAfterContainer) {
+        let isDragging = false;
+        sliderHandle.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            document.body.style.cursor = 'ew-resize';
+        });
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            const containerRect = beforeAfterContainer.getBoundingClientRect();
+            let x = e.clientX - containerRect.left;
+            x = Math.max(0, Math.min(x, containerRect.width));
+            sliderHandle.style.left = `${x}px`;
+            const beforeImage = document.querySelector('.before-image');
+            const afterImage = document.querySelector('.after-image');
+            const percent = (x / containerRect.width) * 100;
+            beforeImage.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+            afterImage.style.clipPath = `inset(0 0 0 ${percent}%)`;
+        });
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            document.body.style.cursor = '';
+        });
+    }
+});
+</script>
+
+
+</body>
+</html>
